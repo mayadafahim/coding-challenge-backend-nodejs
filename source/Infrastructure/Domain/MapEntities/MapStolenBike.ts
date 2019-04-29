@@ -12,7 +12,7 @@ export class MapStolenBike{
         stolenBikeEntity.owner = stolenBike.owner;
         stolenBikeEntity.color = stolenBike.color;
         stolenBikeEntity.description = stolenBike.description;
-        stolenBikeEntity.date  = stolenBike.date;
+        stolenBikeEntity.date  = stolenBike.date ? stolenBike.date : new Date();
         stolenBikeEntity.policeOfficer = new PoliceOfficer();
         stolenBikeEntity.policeOfficer.id = stolenBike.policeOffice ? stolenBike.policeOffice.id : null;
         return stolenBikeEntity;
