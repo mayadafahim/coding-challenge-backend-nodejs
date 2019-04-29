@@ -1,5 +1,6 @@
 import * as schema from 'typeorm';
 import 'reflect-metadata';
+import { StolenBike } from './StolenBike';
 
 @schema.Entity("police_officers")
 export class PoliceOfficer {
@@ -12,5 +13,8 @@ export class PoliceOfficer {
 
     @schema.Column()
     available: boolean;
+
+    @schema.OneToOne((type) => StolenBike, (bike) => bike.policeOfficer)
+    public bike: StolenBike;
     
 } 

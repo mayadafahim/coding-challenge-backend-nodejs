@@ -1,5 +1,6 @@
 import * as schema from 'typeorm';
 import 'reflect-metadata';
+import { PoliceOfficer } from './PoliceOfficer';
 
 @schema.Entity("stolen_bikes")
 export class StolenBike {
@@ -16,7 +17,6 @@ export class StolenBike {
     @schema.Column()
     type: string;
 
-
     @schema.Column()
     owner: string;
 
@@ -25,5 +25,12 @@ export class StolenBike {
 
     @schema.Column()
     description: string;
+
+    @schema.Column()
+    resolved: boolean;
+
+    @schema.OneToOne((type) => PoliceOfficer, (officer) => officer.bike)
+    @schema.JoinColumn({ name: "policeOfficerId" })
+    public policeOfficer: PoliceOfficer;
     
 } 
