@@ -1,0 +1,26 @@
+{
+    "version": "2.3.2",
+    "compilerOptions": {
+        //"baseUrl": ".",
+        "outDir": "build",
+        "target": "es2015",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "declaration": true
+    },
+    "exclude": [
+        "build",
+        "node_modules"
+    ],
+    "include": [
+        "**/*.ts"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "compileOnSave":  true
+}

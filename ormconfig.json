@@ -1,0 +1,16 @@
+{
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "username": "root",
+    "password": "",
+    "database": "join",
+    "synchronize": false,
+    "logging": false,
+    "migrations": [
+        "build/Migration/*.js"
+    ],
+    "cli": {
+        "migrationsDir": "source/Migration"
+    }
+}
