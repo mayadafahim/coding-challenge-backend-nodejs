@@ -9,6 +9,7 @@ export class StolenBikeModel {
     color: string;
     type: string;
     date: Date;
+    owner: string;
     description: string;
     resolved: boolean;
     policeOffice: PoliceOfficerModel;
