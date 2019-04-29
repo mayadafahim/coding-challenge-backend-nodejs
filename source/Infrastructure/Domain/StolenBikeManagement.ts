@@ -1,6 +1,7 @@
 import { UnitOfWork } from "../Repositories/UnitOfWork";
 import { StolenBikeRepository } from "../Repositories/Engines/index";
 import { StolenBikeModel } from "./Models/StolenBikeModel";
+import { StolenBikeFilter } from "./Models/StolenBikeFilter";
 
 export class StolenBikeManagement {
     repository: StolenBikeRepository;
@@ -10,6 +11,10 @@ export class StolenBikeManagement {
 
     async create(bike: StolenBikeModel): Promise<StolenBikeModel> {
         return await this.repository.create(bike);
+    }
+
+    async find(bike: StolenBikeFilter): Promise<StolenBikeModel[]> {
+        return await this.repository.find(bike);
     }
 
 }
