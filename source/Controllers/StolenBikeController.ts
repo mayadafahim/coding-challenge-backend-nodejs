@@ -101,6 +101,8 @@ export class StolenBikeController {
         filterBike.color = color || "";
         filterBike.owner = owner || "";
         filterBike.description = description || "";
+        filterBike.date_to = date_to ? new Date(date_to) : null;
+        filterBike.date_from = date_from ? new Date(date_from) : null;
         let bikes = await this.stolenBikeManagement.find(filterBike);
         return bikes;
     }
