@@ -17,4 +17,8 @@ export class StolenBikeManagement {
         return await this.repository.find(bike);
     }
 
+    async assignOfficers(officerIds: number[]): Promise<void> {
+        await this.repository.assignOfficers(officerIds);
+    }
+
 }

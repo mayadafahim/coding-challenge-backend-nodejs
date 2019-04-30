@@ -24,7 +24,7 @@ export class GenericRepository<T> {
         return this.connection.getRepository(this.type).createQueryBuilder(this.alias);
     }
 
-    public async createOrUpdate(model: any | any[]): Promise<T> {
+    public async createOrUpdate(model: any | any[]): Promise<any | any[]> {
         return await this.connectionManager.getRepository(this.type).save(model);
     }
 
