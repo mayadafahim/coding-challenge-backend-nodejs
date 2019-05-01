@@ -42,3 +42,6 @@ Please stick to the Product Requirements. You should not implement authorisation
 - run tsc
 - run typeorm migration:run
 - run node build/main.js
+
+## Documentation
+- https://documenter.getpostman.com/view/3588043/S1Lr5Wqo
