@@ -34,3 +34,11 @@ Please stick to the Product Requirements. You should not implement authorisation
 - Make your API public. Deploy it using the service of your choice (e.g. AWS, Heroku, Digital Ocean...)
 - Create a pull request
 - Please complete your working solution within 7 days of receiving this challenge, and be sure to notify us when it is ready for review.
+
+## How to Run
+- Install typeorm globally npm install -g typeorm@0.2.16
+- run npm install
+- update ormconfig.json with database name and ceredentials
+- run tsc
+- run typeorm migration:run
+- run node build/main.js
