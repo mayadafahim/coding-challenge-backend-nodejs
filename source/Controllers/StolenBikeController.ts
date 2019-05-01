@@ -99,8 +99,8 @@ export class StolenBikeController {
     @QueryParam("date_to")
     date_to: string): Promise<any> {
         let filterBike = new StolenBikeFilter();
-        filterBike.start = start;
-        filterBike.limit = limit;
+        filterBike.start = start || 0;
+        filterBike.limit = limit || 20;
         filterBike.licenseNumber = licenseNumber || "";
         filterBike.type = type || "";
         filterBike.color = color || "";
