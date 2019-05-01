@@ -106,10 +106,20 @@ export class StolenBikeController {
         let bikes = await this.stolenBikeManagement.find(filterBike);
         return bikes;
     }
-
+    /**
+     * Mark bike as resolved
+     * @param id Bike id
+     */
     @Put("/:id")
     async resolved( @Param("id") id: number): Promise<any> {
-        
+        let bike = await this.stolenBikeManagement.findById(id);
+        if(!bike) {
+            return {
+                status: 401,
+                message: 'Bike not found'
+            }
+        }
+        return await this.stolenBikeManagement.markAsResolved(bike);
     }
 
 

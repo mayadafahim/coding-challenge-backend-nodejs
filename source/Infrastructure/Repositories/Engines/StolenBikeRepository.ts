@@ -85,17 +85,65 @@ export class StolenBikeRepository {
             .take(officersIds.length);
 
         let data = await query.getMany();
-        let officersToBeUpdated = [];
-        data.forEach((record, index) => {
-            record.policeOfficer = new PoliceOfficer();
-            record.policeOfficer.id = officersIds[index];
-            record.policeOfficer.available = false;
-            officersToBeUpdated.push(record.policeOfficer);
+        if (data && data.length) {
+            let officersToBeUpdated = [];
+            data.forEach((record, index) => {
+                record.policeOfficer = new PoliceOfficer();
+                record.policeOfficer.id = officersIds[index];
+                record.policeOfficer.available = false;
+                officersToBeUpdated.push(record.policeOfficer);
+            });
+            await connection.manager.transaction(async (entityManager) => {
+                let entityCreated = await new GenericRepository(StolenBike, 'StolenBike', connection, entityManager).createOrUpdate(data);
+                // update officer avialability 
+                await new GenericRepository(PoliceOfficer, 'PoliceOfficer', connection, entityManager).createOrUpdate(officersToBeUpdated);
+            });
+        }
+    }
+
+    async findById(id: number): Promise<StolenBikeModel> {
+        let connection = await ConnectionManager.Start();
+        //generate basic query
+        let query = (await new GenericRepository(StolenBike, "StolenBike", connection).list())
+            .leftJoinAndSelect('StolenBike.policeOfficer', 'policeOfficer')
+            .andWhere("(StolenBike.id = :id)")
+            .setParameters(
+            {
+                id: id
+            });
+
+        //get data
+        let result = await query.getOne();
+        if (!result) {
+            return null;
+        }
+        return this.mapStolenBike.repoToModel(result);
+    }
+
+    /**
+     * 
+     * Mark bike as resolved
+     */
+    async markAsResolved(bike: StolenBikeModel): Promise<StolenBikeModel> {
+        let connection = await ConnectionManager.Start();
+        let entityObject = new StolenBike();
+        entityObject.id = bike.id;
+        entityObject.resolved = true;
+        entityObject.policeOfficer = null;
+        let officer = new PoliceOfficer();
+        if (bike.policeOffice) {
+            officer.id = bike.policeOffice.id;
+            officer.available = false;
+        }
+        let query = await connection.manager.transaction(async (entityManager) => {
+
+            let entityCreated = await new GenericRepository(StolenBike, 'StolenBike', connection, entityManager).createOrUpdate(entityObject);
+            // update police officer availability
+            if (bike.policeOffice) {
+                await new GenericRepository(PoliceOfficer, 'PoliceOfficer', connection, entityManager).createOrUpdate(officer);
+            } return entityCreated;
         });
-        await connection.manager.transaction(async (entityManager) => {
-            let entityCreated = await new GenericRepository(StolenBike, 'StolenBike', connection, entityManager).createOrUpdate(data);
-            await new GenericRepository(PoliceOfficer, 'PoliceOfficer', connection, entityManager).createOrUpdate(officersToBeUpdated);
-        });
+        return this.mapStolenBike.repoToModel(query);
     }
 
 

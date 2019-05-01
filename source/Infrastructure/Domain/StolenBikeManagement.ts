@@ -21,4 +21,16 @@ export class StolenBikeManagement {
         await this.repository.assignOfficers(officerIds);
     }
 
+    async findById(id: number): Promise<StolenBikeModel> {
+        return await this.repository.findById(id);
+    }
+
+    async markAsResolved(bike: StolenBikeModel): Promise<StolenBikeModel> {
+        let updatedBike = await this.repository.markAsResolved(bike);
+        if (bike.policeOffice) {
+            await this.repository.assignOfficers([bike.policeOffice.id]);
+        }
+        return updatedBike;
+    }
+
 }
