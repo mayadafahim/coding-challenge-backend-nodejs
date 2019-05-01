@@ -25,18 +25,7 @@ export class PoliceOfficerController {
         this.stolenBikeManagement = new StolenBikeManagement();
     }
 
-    @Post("/")
-    async create( @Body() officers: any[]): Promise<any> {
-
-    }
-
-
-    @Delete("/:ids")
-    async delete( @Param("ids") ids: string): Promise<any> {
-
-    }
-
-
+  
     @Post("/adjustCount")
     async incOrDecOfficers( @Body() data: any): Promise<any> {
         if (!data.type || !data.count) {
