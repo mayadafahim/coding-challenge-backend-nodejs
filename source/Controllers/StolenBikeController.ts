@@ -15,14 +15,17 @@ import {
 import { StolenBikeManagement } from '../Infrastructure/Domain/StolenBikeManagement';
 import { StolenBikeModel } from '../Infrastructure/Domain/Models/StolenBikeModel';
 import { StolenBikeFilter } from '../Infrastructure/Domain/Models/StolenBikeFilter';
+import { PoliceOfficerManagement } from '../Infrastructure/Domain/PoliceOfficerManagement';
 
 @JsonController("stolenBikes")
 export class StolenBikeController {
 
     stolenBikeManagement: StolenBikeManagement;
+    policeOfficerManagement: PoliceOfficerManagement;
 
     constructor() {
         this.stolenBikeManagement = new StolenBikeManagement();
+        this.policeOfficerManagement = new PoliceOfficerManagement();
     }
 
     /**
@@ -52,6 +55,8 @@ export class StolenBikeController {
     async create( @Body() bike: any): Promise<any> {
         if(this.validateInput(bike)) {
             let bikeModel = this.constructBusinessModel(bike);
+            let availableOfficer = await this.policeOfficerManagement.getAavailableOfficer();
+            bikeModel.policeOffice = availableOfficer;
             let createdBike = await this.stolenBikeManagement.create(bikeModel);
             return createdBike;
         } else {

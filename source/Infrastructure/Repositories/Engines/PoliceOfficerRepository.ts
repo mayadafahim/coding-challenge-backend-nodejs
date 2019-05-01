@@ -28,4 +28,17 @@ export class PoliceOfficerRepository {
         return await new GenericRepository(PoliceOfficer, "police_officers", connection).deleteWithLimit('available', 1, count);
     }
 
+    async getAvailableOfficer(): Promise<PoliceOfficerModel> {
+        let connection = await ConnectionManager.Start();
+        let query = (await new GenericRepository(PoliceOfficer, "PoliceOfficer", connection).list())
+            .andWhere("(available = 1)")
+            .take(1);
+
+        let result = await query.getOne();
+        if(!result) {
+            return null;
+        }
+        return this.mapPoliceOfficer.repoToModel(result);
+    }
+
 }

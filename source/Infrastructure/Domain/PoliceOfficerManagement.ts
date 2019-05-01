@@ -30,4 +30,8 @@ export class PoliceOfficerManagement {
         return await this.repository.createMultiple(officers);
     }
 
+    async getAavailableOfficer(): Promise<PoliceOfficerModel> {
+        return await this.repository.getAvailableOfficer();
+    }
+
 }
