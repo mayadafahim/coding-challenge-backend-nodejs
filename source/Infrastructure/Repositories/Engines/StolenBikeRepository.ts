@@ -58,6 +58,10 @@ export class StolenBikeRepository {
                 });
         }
 
+        let count = await query.getCount();
+        if (count <= bikeFilter.start) {
+            bikeFilter.start = 0;
+        }
         //set pagination
         query = await query.skip(bikeFilter.start)
             .take(bikeFilter.limit);
