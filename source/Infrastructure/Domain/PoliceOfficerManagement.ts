@@ -8,21 +8,22 @@ export class PoliceOfficerManagement {
         this.repository = UnitOfWork.PoliceOfficerRepository;
     }
 
-    async incOrDecOfficers(type, count): Promise<PoliceOfficerModel[]> {
-        // If required to add more officers
-        if (type == 'inc') {
-            let officers = [];
-            // Prepare police officers models
-            for (let i = 0; i < count; i++) {
-                officers.push(new PoliceOfficerModel({
-                    name: 'rand' + i,
-                    available: true
-                }));
-            }
-            return await this.createMultiple(officers);
-        } else {
+    async incOfficers(count): Promise<PoliceOfficerModel[]> {
 
+        let officers = [];
+        // Prepare police officers models
+        for (let i = 0; i < count; i++) {
+            officers.push(new PoliceOfficerModel({
+                name: 'rand' + i,
+                available: true
+            }));
         }
+        return await this.createMultiple(officers);
+
+    }
+
+    async decOfficers(count): Promise<number> {
+        return await this.repository.deleteOfficers(count);
     }
 
     async createMultiple(officers: PoliceOfficerModel[]): Promise<PoliceOfficerModel[]> {

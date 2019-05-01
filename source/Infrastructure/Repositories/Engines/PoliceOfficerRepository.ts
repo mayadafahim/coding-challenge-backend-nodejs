@@ -23,4 +23,9 @@ export class PoliceOfficerRepository {
         return retData;
     }
 
+    async deleteOfficers(count: number): Promise<number> {
+        let connection = await ConnectionManager.Start();
+        return await new GenericRepository(PoliceOfficer, "police_officers", connection).deleteWithLimit('available', 1, count);
+    }
+
 }

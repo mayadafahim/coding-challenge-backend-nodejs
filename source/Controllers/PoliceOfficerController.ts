@@ -17,7 +17,7 @@ import { StolenBikeManagement } from '../Infrastructure/Domain/StolenBikeManagem
 @JsonController("policeOfficers")
 export class PoliceOfficerController {
 
-    policeOfficerManagement : PoliceOfficerManagement;
+    policeOfficerManagement: PoliceOfficerManagement;
     stolenBikeManagement: StolenBikeManagement;
 
     constructor() {
@@ -45,9 +45,18 @@ export class PoliceOfficerController {
                 message: 'Missing Required Params'
             }
         } else {
-            let officers = await this.policeOfficerManagement.incOrDecOfficers(data.type, data.count);
-            await this.stolenBikeManagement.assignOfficers(officers.map(officer => officer.id));
-            return officers;
+            if (data.type == 'inc') {
+                let officers = await this.policeOfficerManagement.incOfficers(data.count);
+                await this.stolenBikeManagement.assignOfficers(officers.map(officer => officer.id));
+                return {
+                    message: officers.length + " officers have been created"
+                }
+            } else {
+                let officersCount = await this.policeOfficerManagement.decOfficers(data.count);
+                return {
+                    message: officersCount + " available officers have been deleted"
+                }
+            }
         }
     }
 

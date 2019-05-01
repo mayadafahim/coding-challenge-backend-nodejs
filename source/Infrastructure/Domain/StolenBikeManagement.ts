@@ -27,6 +27,7 @@ export class StolenBikeManagement {
 
     async markAsResolved(bike: StolenBikeModel): Promise<StolenBikeModel> {
         let updatedBike = await this.repository.markAsResolved(bike);
+        // Assign officer of the old bike to any available case
         if (bike.policeOffice) {
             await this.repository.assignOfficers([bike.policeOffice.id]);
         }

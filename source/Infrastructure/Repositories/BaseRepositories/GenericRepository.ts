@@ -29,9 +29,11 @@ export class GenericRepository<T> {
     }
 
 
-    public async delete(field: string, value: string): Promise<boolean> {
-        let repo = this.connectionManager.getRepository(this.type).createQueryBuilder(this.alias);
-        return await repo.delete().where(`${field} = ('${value}')`).execute();
+    public async deleteWithLimit(field: string, value: any, count: number): Promise<any> {
+        // let repo = this.connectionManager.getRepository(this.type).createQueryBuilder(this.alias);
+        // return await repo.where(`${field} = ('${value}')`).take(count).delete().execute();
+        let query =  await this.connectionManager.query('DELETE from ' + this.alias + ' WHERE ' + field + '=' + value + ' LIMIT ' + count);
+        return query.affectedRows;
     }
 
     public async deleteMultiple(field: string, value: number[]): Promise<boolean> {
